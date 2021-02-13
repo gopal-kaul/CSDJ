@@ -4,7 +4,8 @@
 
 Head over to the releases page to grab it!
 Pretty easy to use!
-Features
+
+Features-
 1. Direct Download Songs from YouTube by Name!
 2. Songs get auto cached!
 3. GUI(needs improvement!)
