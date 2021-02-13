@@ -1,14 +1,16 @@
-# CSDJ
+# CSDJ - The Open Source Music Player for Source based Games!
 ![Github All Releases](https://img.shields.io/github/issues/gopal-kaul/CSDJ) ![Github All Releases](https://img.shields.io/github/forks/gopal-kaul/CSDJ) ![Github All Releases](https://img.shields.io/github/stars/gopal-kaul/CSDJ) ![Github All Releases](https://img.shields.io/github/downloads/gopal-kaul/CSDJ/total.svg)
 ### A Music Player for Source based games like CSGO, HL2 and others!
 
-Release V1.0 is in beta! Only CLI for now, but everything should work
 Head over to the releases page to grab it!
 Pretty easy to use!
 Features
 1. Direct Download Songs from YouTube by Name!
 2. Songs get auto cached!
-3. GUI(coming soon!)
+3. GUI(needs improvement!)
+
+### Why did you make this?
+Well, first of all, other projects like [SLAM](https://github.com/SilentSys/SLAM) and [csgoMP](https://github.com/stroopwafel1337/csgoMP) exist, but they are more or less dead. This will be supported for the forseeable future. This is nowhere as good as SLAM, as it still needs some features to be added!(Like selecting of songs using the console as in SLAM)
 
 ### How to Download?
 Go to [CSDJ Releases](https://github.com/gopal-kaul/CSDJ/releases/latest) and download the appropriate version for your operating system. Or clone this repository and run the Python script.
@@ -55,4 +57,3 @@ It is usually the following-
  ### Do you accept pull requests?
  Yes we do. Submit your pull request and we'll get back to it!
  
-!
