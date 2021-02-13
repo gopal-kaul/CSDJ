@@ -58,18 +58,18 @@ def movetodir(name):
         dest = ''
         # Adding(Trying to add default path):
         if platform.system() == "Windows":
-            if os.path.isdir(os.path.join("C:", "Program Files (x86)", "Steam", "steamapps", "common", "Counter-Strike Global Offensive")) == True:
-                dest = os.path.join("C:", "Program Files (x86)", "Steam",
+            if os.path.isdir(os.path.join("C:\\", "Program Files (x86)", "Steam", "steamapps", "common", "Counter-Strike Global Offensive")) == True:
+                dest = os.path.join("C:\\", "Program Files (x86)", "Steam",
                                     "steamapps", "common", "Counter-Strike Global Offensive")
-            elif os.path.isdir(os.path.join("C:", "Program Files", "Steam", "steamapps", "common", "Counter-Strike Global Offensive")) == True:
-                dest = os.path.join("C:", "Program Files", "Steam",
+            elif os.path.isdir(os.path.join("C:\\", "Program Files", "Steam", "steamapps", "common", "Counter-Strike Global Offensive")) == True:
+                dest = os.path.join("C:\\", "Program Files", "Steam",
                                     "steamapps", "common", "Counter-Strike Global Offensive")
         elif platform.system() == "Linux":
             if os.path.isdir(os.path.join(os.path.expanduser("~"), ".steam", "steam", "steamapps", "common", "Counter-Strike Global Offensive")) == True:
                 dest = os.path.join(os.path.expanduser(
                     "~"), ".steam", "steam", "steamapps", "common", "Counter-Strike Global Offensive")
         if dest == '':
-            dest = input("Enter your CSGO install dir : ")
+            dest = sg.popup_get_text("Enter your CSGO install dir : ")
         cfg = open('csdir.cfg', 'w')
         cfg.write(dest)
         path = os.path.join(os.getcwd(), 'cache', 'voice_input.wav')
