@@ -14,7 +14,7 @@ Features
 Go to [CSDJ Releases](https://github.com/gopal-kaul/CSDJ/releases/latest) and download the appropriate version for your operating system. Or clone this repository and run the Python script.
 To run the python script, do the following-
 ```
-git clone https://github.com/gopal-kaul/CSDJ/CSDJ.git
+git clone https://github.com/gopal-kaul/CSDJ.git
 cd CSDJ
 pip install -r requirements.txt
 python CSDJ.py
