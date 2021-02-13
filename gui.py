@@ -89,11 +89,6 @@ sg.theme('Dark Blue 3')
 layout = [
     [sg.Text("Enter a song name : ")],
     [sg.Input()],
-    [
-        sg.Listbox(
-            values=[], enable_events=True, size=(40, 20), key="-FILE LIST-"
-        )
-    ],
     [sg.Ok()]
 ]
 window = sg.Window('CSDJ', layout)
@@ -104,4 +99,5 @@ while True:
     if event == 'Ok':
         download(values[0])
         movetodir()
+        sg.popup_ok(f"{values[0]} successfully downloaded and copied!")
 window.close()
