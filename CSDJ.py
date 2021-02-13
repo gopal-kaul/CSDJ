@@ -30,9 +30,9 @@ def download(name):
 
 def movetodir(name):
     if platform.system() == 'Windows':
-        ffmpeg_cmd = os.path.join(os.getcwd(), 'utils\\', 'ffmpegw.exe') + " -i " + os.path.join(os.getcwd(),'cache\\',f'{name}.webm') +  \
+        ffmpeg_cmd = f"{os.path.join(os.getcwd(), 'utils', 'ffmpegw.exe')}" + " -i " + f"{os.path.join(os.getcwd(),'cache',f'{name}.webm')}" +  \
             " -acodec pcm_s16le -ar 22050 -ac 1 -fflags +bitexact -flags:v +bitexact -flags:a +bitexact " + \
-            os.path.join(os.getcwd(),"cache\\","voice_input.wav") + " -y"
+            f"{os.path.join(os.getcwd(),'cache','voice_input.wav')}" + " -y"
         subprocess.call(ffmpeg_cmd, shell=True)
     # Call to ffmpeg to run the conversion
     elif platform.system() == "Linux":
