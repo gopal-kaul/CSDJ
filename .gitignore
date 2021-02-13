@@ -1,5 +1,6 @@
 .webm
 csdir.cfg
 .wav
+cache/
 Pipfile
 Pipfile.lock
