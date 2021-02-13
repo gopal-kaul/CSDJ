@@ -30,24 +30,25 @@ def download(name):
 
 def movetodir(name):
     if platform.system() == 'Windows':
-        ffmpeg_cmd = f"'{os.path.join(os.getcwd(), 'utils', 'ffmpegw.exe')}'" + " -i " + f"'{os.path.join(os.getcwd(),'cache',f'{name}.webm')}'" +  \
+        ffmpeg_cmd = f"'{os.path.join(os.getcwd(), 'utils\\', 'ffmpegw.exe')}'" + " -i " + f"'{os.path.join(os.getcwd(),'cache\\',f'{name}.webm')}'" +  \
             " -acodec pcm_s16le -ar 22050 -ac 1 -fflags +bitexact -flags:v +bitexact -flags:a +bitexact " + \
-            f'"{os.path.join(os.getcwd(),"cache","voice_input.wav")}"' + " -y"
+            f'"{os.path.join(os.getcwd(),"cache\\","voice_input.wav")}"' + " -y"
         subprocess.call(ffmpeg_cmd, shell=True)
     # Call to ffmpeg to run the conversion
     elif platform.system() == "Linux":
-        ffmpeg_cmd = f'"{os.path.join(os.getcwd(), "utils","ffmpeglinux")}"' + " -i " + f"'{os.path.join(os.getcwd(),'cache',f'{name}.webm')}'" +  \
+        ffmpeg_cmd = f'"{os.path.join(os.getcwd(), "utils/","ffmpeglinux")}"' + " -i " + f"'{os.path.join(os.getcwd(),'cache/',f'{name}.webm')}'" +  \
             " -acodec pcm_s16le -ar 22050 -ac 1 -fflags +bitexact -flags:v +bitexact -flags:a +bitexact " + \
-            f'"{os.path.join(os.getcwd(),"cache","voice_input.wav")}"' + " -y"
+            f'"{os.path.join(os.getcwd(),"cache/","voice_input.wav")}"' + " -y"
         subprocess.call(ffmpeg_cmd, shell=True)
 
     try:
         cfg = open('csdir.cfg')
         dest = str(cfg.read())
-        path = os.path.join(os.getcwd(), 'cache' 'voice_input.wav')
-        if platform.system() == 'Windows':
+        if platform.system()=='Windows':
+            path = os.path.join(os.getcwd(), 'cache\\','voice_input.wav')
             shutil.copy(path, f"{dest}\\")
         elif platform.system() == "Linux":
+            path = os.path.join(os.getcwd(), 'cache/','voice_input.wav')
             shutil.copy(path, f"{dest}")
         sg.PopupQuick("Copied!")
         if os.path.exists(os.path.join(dest, 'csgo', 'cfg', 'csdj.cfg')) == False:
@@ -72,10 +73,11 @@ def movetodir(name):
             dest = sg.popup_get_text("Enter your CSGO install dir : ")
         cfg = open('csdir.cfg', 'w')
         cfg.write(dest)
-        path = os.path.join(os.getcwd(), 'cache', 'voice_input.wav')
         if platform.system() == 'Windows':
+            path = os.path.join(os.getcwd(), 'cache\\', 'voice_input.wav')
             shutil.copy(path, f"{dest}\\")
         elif platform.system() == "Linux":
+            path = os.path.join(os.getcwd(), 'cache/', 'voice_input.wav')
             shutil.copy(path, f"{dest}")
         sg.PopupQuick("Copied!")
         if os.path.exists(os.path.join(dest, 'csgo', 'cfg', 'csdj.cfg')) == False:
