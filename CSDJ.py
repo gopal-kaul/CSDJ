@@ -30,9 +30,10 @@ def download(name):
 
 def movetodir(name):
     if platform.system() == 'Windows':
-        ffmpeg_cmd = f"{os.path.join(os.getcwd(), 'utils', 'ffmpegw.exe')}" + " -i " + f"{os.path.join(os.getcwd(),'cache',f'{name}.webm')}" +  \
+        basedir = os.getcwd().replace(' ', r'\ ')
+        ffmpeg_cmd = f"{os.path.join(basedir,'utils', 'ffmpegw.exe')}" + " -i " + f"{os.path.join(basedir,'cache',f'{name}.webm')}" + \
             " -acodec pcm_s16le -ar 22050 -ac 1 -fflags +bitexact -flags:v +bitexact -flags:a +bitexact " + \
-            f"{os.path.join(os.getcwd(),'cache','voice_input.wav')}" + " -y"
+            f"{os.path.join(basedir,'cache','voice_input.wav')}" + " -y"
         subprocess.call(ffmpeg_cmd, shell=True)
     # Call to ffmpeg to run the conversion
     elif platform.system() == "Linux":
@@ -44,11 +45,11 @@ def movetodir(name):
     try:
         cfg = open('csdir.cfg')
         dest = str(cfg.read())
-        if platform.system()=='Windows':
-            path = os.path.join(os.getcwd(), 'cache\\','voice_input.wav')
+        if platform.system() == 'Windows':
+            path = os.path.join(os.getcwd(), 'cache\\', 'voice_input.wav')
             shutil.copy(path, f"{dest}\\")
         elif platform.system() == "Linux":
-            path = os.path.join(os.getcwd(), 'cache/','voice_input.wav')
+            path = os.path.join(os.getcwd(), 'cache/', 'voice_input.wav')
             shutil.copy(path, f"{dest}")
         sg.PopupQuick("Copied!")
         if os.path.exists(os.path.join(dest, 'csgo', 'cfg', 'csdj.cfg')) == False:
@@ -86,26 +87,31 @@ def movetodir(name):
         cfg.close()
 
 
-sg.theme('Dark Blue 14')
-layout = []
-layout.append([sg.Text("Select one : ")])
-for i in os.listdir(os.path.join(os.getcwd(), 'cache')):
-    name = i.replace(".webm",'')
-    if i not in ['.gitkeep', 'voice_input.wav']:
-        layout.append([sg.Text(name), sg.Button("Select", key=name)])
+def layoutbuild():
+    layout = []
+    for i in os.listdir(os.path.join(os.getcwd(), 'cache')):
+        name = i.replace(".webm", '')
+        if i not in ['.gitkeep', 'voice_input.wav']:
+            layout.append(name)
+    return layout
 
+
+layout = [[sg.Text("Select from available songs or add from YouTube : ")], [sg.Listbox(
+    values=layoutbuild(), size=(40, 2*len(layoutbuild())), enable_events=True, key="-FILES-")]]
+sg.theme('Dark Blue 14')
 layout.append([sg.HSeparator()])
-layout.append([sg.Button("Add from YouTube",key='yt')])
+layout.append([sg.Button("Add from YouTube", key='yt')])
 window = sg.Window('CSDJ', layout)
 while True:
     event, values = window.read()
     if event == sg.WIN_CLOSED or event == 'Cancel':
         break
     elif event == 'yt':
-        song = sg.popup_get_text("Enter the song name : " )
+        song = sg.popup_get_text("Enter the song name : ")
         download(song)
         movetodir(song)
         sg.popup_ok(f"{song} successfully downloaded and copied!")
-    else:
-        movetodir(event)
+        window['-FILES-'].update(layoutbuild())
+    elif event == '-FILES-':
+        movetodir(values['-FILES-'][0])
 window.close()
