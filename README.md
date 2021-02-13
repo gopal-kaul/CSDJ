@@ -24,7 +24,12 @@ python CSDJ.py
 ```
 
 ### How to use?
-Just extract, run CSDJ.exe or ./csdj, and profit!
+Just extract and run 
+```
+pip install -r requirements.txt
+python CSDJ.py
+```
+
 Enter the song name, it supports caching so you don't redownload it everytime.
 I have added some automatic detection of default paths. If your path is not found, you may need to enter your CSGO install path.
 It is usually the following-
