@@ -22,6 +22,8 @@ def download(name):
     link = search(name)  # Searching the song on YT
     song = pafy.new(link)  # Finding the song using PAFY
     dl = song.getbestaudio()  # Getting the best song and audio quality
+    if os.path.isdir(os.path.join(os.getcwd(),'cache'))==False:
+        os.mkdir(os.path.join(os.getcwd(),"cache"))
     path = os.path.join(os.getcwd(), "cache", f"{name}.webm")
     # Downloading it with output to console
     dl.download(quiet=True, filepath=path)
