@@ -104,13 +104,4 @@ while True:
     if event == 'Ok':
         download(values[0])
         movetodir()
-    elif event == "-FILE LIST-":  # A file was chosen from the listbox
-        try:
-            filename = os.path.join(
-               os.getcwd(),'cache'
-            )
-            window["-TOUT-"].update(filename)
-            window["-IMAGE-"].update(filename=filename)
-        except:
-            pass
 window.close()
