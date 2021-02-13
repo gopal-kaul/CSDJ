@@ -24,24 +24,23 @@ def download(name):
     dl = song.getbestaudio()  # Getting the best song and audio quality
     path = os.path.join(os.getcwd(), "cache", f"{name}.webm")
     # Downloading it with output to console
-    dl.download(quiet=False, filepath=path)
+    dl.download(quiet=True, filepath=path)
     # os.rename(title, name)
+
+
+def movetodir(name):
     if platform.system() == 'Windows':
         ffmpeg_cmd = f"'{os.path.join(os.getcwd(), 'utils', 'ffmpegw.exe')}'" + " -i " + f"'{os.path.join(os.getcwd(),'cache',f'{name}.webm')}'" +  \
             " -acodec pcm_s16le -ar 22050 -ac 1 -fflags +bitexact -flags:v +bitexact -flags:a +bitexact " + \
             f'"{os.path.join(os.getcwd(),"cache","voice_input.wav")}"' + " -y"
-        print(ffmpeg_cmd)
         subprocess.call(ffmpeg_cmd, shell=True)
     # Call to ffmpeg to run the conversion
     elif platform.system() == "Linux":
         ffmpeg_cmd = f'"{os.path.join(os.getcwd(), "utils","ffmpeglinux")}"' + " -i " + f"'{os.path.join(os.getcwd(),'cache',f'{name}.webm')}'" +  \
             " -acodec pcm_s16le -ar 22050 -ac 1 -fflags +bitexact -flags:v +bitexact -flags:a +bitexact " + \
             f'"{os.path.join(os.getcwd(),"cache","voice_input.wav")}"' + " -y"
-        print(ffmpeg_cmd)
         subprocess.call(ffmpeg_cmd, shell=True)
 
-
-def movetodir():
     try:
         cfg = open('csdir.cfg')
         dest = str(cfg.read())
@@ -50,7 +49,7 @@ def movetodir():
             shutil.copy(path, f"{dest}\\")
         elif platform.system() == "Linux":
             shutil.copy(path, f"{dest}")
-        print("Copied!")
+        sg.PopupQuick("Copied!")
         if os.path.exists(os.path.join(dest, 'csgo', 'cfg', 'csdj.cfg')) == False:
             shutil.copy(f'{os.path.join(os.getcwd(),"csdj.cfg")}',
                         f"{os.path.join(dest,'csgo','cfg')}")
@@ -78,26 +77,33 @@ def movetodir():
             shutil.copy(path, f"{dest}\\")
         elif platform.system() == "Linux":
             shutil.copy(path, f"{dest}")
-        print("Copied!")
+        sg.PopupQuick("Copied!")
         if os.path.exists(os.path.join(dest, 'csgo', 'cfg', 'csdj.cfg')) == False:
             shutil.copy(f'{os.path.join(os.getcwd(),"csdj.cfg")}',
                         f"{os.path.join(dest,'csgo','cfg')}")
         cfg.close()
 
 
-sg.theme('Dark Blue 3')
-layout = [
-    [sg.Text("Enter a song name : ")],
-    [sg.Input()],
-    [sg.Ok()]
-]
+sg.theme('Dark Blue 14')
+layout = []
+layout.append([sg.Text("Select one : ")])
+for i in os.listdir(os.path.join(os.getcwd(), 'cache')):
+    name = i.replace(".webm",'')
+    if i not in ['.gitkeep', 'voice_input.wav']:
+        layout.append([sg.Text(name), sg.Button("Select", key=name)])
+
+layout.append([sg.HSeparator()])
+layout.append([sg.Button("Add from YouTube",key='yt')])
 window = sg.Window('CSDJ', layout)
 while True:
     event, values = window.read()
     if event == sg.WIN_CLOSED or event == 'Cancel':
         break
-    if event == 'Ok':
-        download(values[0])
-        movetodir()
-        sg.popup_ok(f"{values[0]} successfully downloaded and copied!")
+    elif event == 'yt':
+        song = sg.popup_get_text("Enter the song name : " )
+        download(song)
+        movetodir(song)
+        sg.popup_ok(f"{song} successfully downloaded and copied!")
+    else:
+        movetodir(event)
 window.close()
