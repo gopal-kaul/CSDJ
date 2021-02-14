@@ -24,26 +24,25 @@ def download(name):
     dl = song.getbestaudio()  # Getting the best song and audio quality
     if os.path.isdir(os.path.join(os.getcwd(),'cache'))==False:
         os.mkdir(os.path.join(os.getcwd(),"cache"))
-    path = os.path.join(os.getcwd(), "cache", f"{name}.webm")
+    path = os.path.join(os.getcwd(), "cache", "download.webm")
     # Downloading it with output to console
     dl.download(quiet=True, filepath=path)
     # os.rename(title, name)
-
-
-def movetodir(name):
     if platform.system() == 'Windows':
         basedir = os.getcwd().replace(' ', r'\ ')
-        ffmpeg_cmd = f"{os.path.join(basedir,'utils', 'ffmpegw.exe')}" + " -i " + f"{os.path.join(basedir,'cache',f'{name}.webm')}" + \
+        ffmpeg_cmd = f"{os.path.join(basedir,'utils', 'ffmpegw.exe')}" + " -i " + f"{os.path.join(basedir,'cache','download.webm')}" + \
             " -acodec pcm_s16le -ar 22050 -ac 1 -fflags +bitexact -flags:v +bitexact -flags:a +bitexact " + \
-            f"{os.path.join(basedir,'cache','voice_input.wav')}" + " -y"
+            f"{os.path.join(basedir,'cache',f'{name}.wav')}" + " -y"
         subprocess.call(ffmpeg_cmd, shell=True)
     # Call to ffmpeg to run the conversion
     elif platform.system() == "Linux":
-        ffmpeg_cmd = f'"{os.path.join(os.getcwd(), "utils/","ffmpeglinux")}"' + " -i " + f"'{os.path.join(os.getcwd(),'cache/',f'{name}.webm')}'" +  \
+        ffmpeg_cmd = f'"{os.path.join(os.getcwd(), "utils/","ffmpeglinux")}"' + " -i " + f"'{os.path.join(os.getcwd(),'cache/','download.webm')}'" +  \
             " -acodec pcm_s16le -ar 22050 -ac 1 -fflags +bitexact -flags:v +bitexact -flags:a +bitexact " + \
-            f'"{os.path.join(os.getcwd(),"cache/","voice_input.wav")}"' + " -y"
+            f'"{os.path.join(os.getcwd(),"cache/",f"{name}.wav")}"' + " -y"
         subprocess.call(ffmpeg_cmd, shell=True)
 
+def movetodir(name):
+    shutil.copyfile(os.path.join(os.getcwd(),'cache',f'{name}.wav'),os.path.join(os.getcwd(),'cache','voice_input.wav'))
     try:
         cfg = open('csdir.cfg')
         dest = str(cfg.read())
@@ -92,7 +91,7 @@ def movetodir(name):
 def layoutbuild():
     layout = []
     for i in os.listdir(os.path.join(os.getcwd(), 'cache')):
-        name = i.replace(".webm", '')
+        name = i.replace(".wav", '')
         if i not in ['.gitkeep', 'voice_input.wav']:
             layout.append(name)
     return layout
